@@ -19,6 +19,12 @@ module.exports = function (React) {
         threshold: 250
       };
     },
+    getInitialState: function () {
+      return {
+        loading: false,
+        error: false
+      };
+    },
     componentDidMount: function () {
       this.pageLoaded = this.props.pageStart;
       this.attachScrollListener();
@@ -28,7 +34,9 @@ module.exports = function (React) {
     },
     render: function () {
       var props = this.props;
-      return React.DOM.div(null, props.children, props.hasMore && (props.loader || InfiniteScroll._defaultLoader));
+      var state = this.state;
+      return React.DOM.div(null, props.children, state.loading && (props.loader || InfiniteScroll._defaultLoader),
+        state.error && (props.errorRetry));
     },
     scrollListener: function () {
       var el = this.getDOMNode();
@@ -37,11 +45,32 @@ module.exports = function (React) {
         this.detachScrollListener();
         // call loadMore after detachScrollListener to allow
         // for non-async loadMore functions
-        this.props.loadMore(this.pageLoaded += 1);
+        var promise = this.props.loadMore(this.pageLoaded += 1);
+        if (!promise || typeof promise.then !== 'function') {
+          throw new Error('loadMore must return a Promise!');
+        }
+        promise.then(function () {
+          this.setState({
+            loading: false,
+            error: false
+          });
+        }, function () {
+          this.setState({
+            loading: false,
+            error: true
+          });
+        });
+        // What if promise has failed?
+        // We can display 'retry' button I suppose - But that involves using
+        // a state etc.
+        this.setState({
+          loading: true,
+          error: false
+        });
       }
     },
     attachScrollListener: function () {
-      if (!this.props.hasMore) {
+      if (!this.props.hasMore || !this.state.loading && !this.state.error) {
         return;
       }
       window.addEventListener('scroll', this.scrollListener);

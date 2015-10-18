@@ -1,6 +1,6 @@
 {
-  "name": "react-infinite-scroll",
-  "version": "0.1.5",
+  "name": "react-infinite-scroll-promise",
+  "version": "0.2.0",
   "description": "",
   "main": "src/react-infinite-scroll.js",
   "scripts": {
@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/guillaumervls/react-infinite-scroll.git"
+    "url": "git://github.com/yoo2001818/react-infinite-scroll-promise.git"
   },
   "keywords": [
     "infinite",
     "scroll",
     "react"
   ],
-  "author": "guillaumervls",
+  "author": "yoo2001818",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/guillaumervls/react-infinite-scroll/issues"
+    "url": "https://github.com/yoo2001818/react-infinite-scroll-promise/issues"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

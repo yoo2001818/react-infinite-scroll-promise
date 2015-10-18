@@ -1,5 +1,17 @@
-React Infinite Scroll
-=====================
+React Infinite Scroll Promise
+=============================
+
+This is forked version of
+[react-infinite-scroll](https://github.com/guillaumervls/react-infinite-scroll).
+
+It has been patched to prevent trying loading objects infinitely
+with promises.
+
+Thus, 'loadMore' function SHOULD return a Promise object if you're using
+this forked version.
+
+However, this doesn't mean that you don't have to provide 'items' array.
+You still have to provide 'items' array by yourself.
 
 *React infinite scroll component*
 
@@ -51,6 +63,7 @@ In this case, it will depend on `react`.
 
 - `loadMore(pageToLoad)` : This function is called when the user scrolls down
                            and we need to load stuff
+                           **Must return a Promise object**
 
 - `hasMore` : Boolean stating if we should keep listening to scroll event and
               trying to load more stuff
@@ -58,6 +71,9 @@ In this case, it will depend on `react`.
 - `loader` : Loader element to be displayed while loading stuff - You can use
              `InfiniteScroll.setDefaultLoader(loader);` to set a defaut loader
              for all your `InfiniteScroll` components
+
+- `errorRetry` : Retry button element to be displayed if there was an error -
+                 You have to handle onClick events manually.
 
 - `threshold` : The distance between the bottom of the page and the bottom of the
                 window's viewport that triggers the loading of new stuff -
